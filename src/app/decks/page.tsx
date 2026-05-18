@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { PlusCircle } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
+import { useSupabase } from "@/lib/supabase/use-supabase";
 import type { Deck } from "@/types";
 import BottomNav from "@/components/BottomNav";
 import DeckCard from "@/components/DeckCard";
@@ -15,11 +15,13 @@ type DeckWithCount = Deck & { question_count: number };
 
 export default function DecksPage() {
   const router = useRouter();
-  const supabase = createClient();
+  const supabase = useSupabase();
   const [loading, setLoading] = useState(true);
   const [decks, setDecks] = useState<DeckWithCount[]>([]);
 
   useEffect(() => {
+    if (!supabase) return;
+
     const load = async () => {
       const {
         data: { user },

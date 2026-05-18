@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { PlusCircle } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
+import { useSupabase } from "@/lib/supabase/use-supabase";
 import { getLevel, getLevelProgress } from "@/lib/xp";
 import type { Deck, Profile } from "@/types";
 import LoadingScreen from "@/components/LoadingScreen";
@@ -18,7 +18,7 @@ type DeckWithCount = Deck & { question_count: number };
 
 export default function Dashboard() {
   const router = useRouter();
-  const supabase = createClient();
+  const supabase = useSupabase();
 
   const [loading, setLoading] = useState(true);
   const [showAuthSplash, setShowAuthSplash] = useState(false);
@@ -32,6 +32,8 @@ export default function Dashboard() {
   }, []);
 
   useEffect(() => {
+    if (!supabase) return;
+
     const load = async () => {
       const {
         data: { user },

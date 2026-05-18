@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";   // ← Updated import
+import { useSupabase } from "@/lib/supabase/use-supabase";
 import { motion, AnimatePresence } from "framer-motion";
 import LoadingModal from "@/components/LoadingModal";
 import { setAuthLoading } from "@/lib/auth-loading";
@@ -9,7 +9,7 @@ import { Eye, EyeOff, User, Mail, Lock } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
-  const supabase = createClient();
+  const supabase = useSupabase();
 
   const [loading, setLoading] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
@@ -26,6 +26,8 @@ export default function LoginPage() {
 
   // Auto redirect if user is already logged in
   useEffect(() => {
+    if (!supabase) return;
+
     const checkUser = async () => {
       const { data } = await supabase.auth.getUser();
       if (data.user) {
@@ -37,6 +39,8 @@ export default function LoginPage() {
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!supabase) return;
+
     setLoading(true);
     setMessage(null);
 

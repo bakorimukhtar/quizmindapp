@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+import { useSupabase } from "@/lib/supabase/use-supabase";
 import { motion } from "framer-motion";
 import { Edit2, LogOut } from "lucide-react";
 import BottomNav from "@/components/BottomNav";
@@ -21,13 +21,11 @@ export default function ProfilePage() {
   const [saving, setSaving] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
 
-  const supabase = createClient();
-
-  useEffect(() => {
-    fetchProfile();
-  }, []);
+  const supabase = useSupabase();
 
   const fetchProfile = async () => {
+    if (!supabase) return;
+
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       router.replace("/login");
@@ -50,8 +48,12 @@ export default function ProfilePage() {
     setLoading(false);
   };
 
+  useEffect(() => {
+    if (supabase) fetchProfile();
+  }, [supabase]);
+
   const saveProfile = async () => {
-    if (!user) return;
+    if (!user || !supabase) return;
     setSaving(true);
     const { error } = await supabase
       .from('profiles')
@@ -68,7 +70,7 @@ export default function ProfilePage() {
   };
 
   const searchUsers = async () => {
-    if (!searchQuery.trim()) return;
+    if (!searchQuery.trim() || !supabase) return;
     const { data } = await supabase
       .from('profiles')
       .select('id, full_name, username')
@@ -79,6 +81,7 @@ export default function ProfilePage() {
   };
 
   const sendFriendRequest = async (friendId: string) => {
+    if (!supabase) return;
     await supabase.from('friends').insert({ user_id: user.id, friend_id: friendId });
     alert("Friend request sent!");
     setSearchQuery("");
@@ -86,6 +89,7 @@ export default function ProfilePage() {
   };
 
   const handleLogout = async () => {
+    if (!supabase) return;
     setLoggingOut(true);
     const { error } = await supabase.auth.signOut();
     setLoggingOut(false);

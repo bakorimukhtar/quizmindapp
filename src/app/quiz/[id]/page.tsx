@@ -18,7 +18,7 @@ import {
   Loader2,
 } from "lucide-react";
 import type { ExplanationLevel } from "@/lib/gemini";
-import { createClient } from "@/lib/supabase/client";
+import { useSupabase } from "@/lib/supabase/use-supabase";
 import { shuffleArray } from "@/lib/shuffle";
 import { getLevel, getLevelProgress } from "@/lib/xp";
 import { QUESTION_COUNT } from "@/lib/gemini";
@@ -58,7 +58,7 @@ export default function QuizPage({
 }) {
   const { id: deckId } = use(params);
   const router = useRouter();
-  const supabase = createClient();
+  const supabase = useSupabase();
 
   const [loading, setLoading] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState(
@@ -92,6 +92,8 @@ export default function QuizPage({
     questions.length > 0 ? ((currentIndex + 1) / questions.length) * 100 : 0;
 
   const startSession = useCallback(async () => {
+    if (!supabase) return;
+
     setLoading(true);
     setError(null);
     setFinished(false);
@@ -134,8 +136,9 @@ export default function QuizPage({
   }, [deckId, router, supabase]);
 
   useEffect(() => {
+    if (!supabase) return;
     startSession();
-  }, [startSession]);
+  }, [supabase, startSession]);
 
   useEffect(() => {
     if (current) {
