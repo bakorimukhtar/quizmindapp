@@ -114,7 +114,7 @@ export default function CreatePage() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. Biology - Cell Structure"
-              className="w-full min-w-0 px-4 py-3 border border-slate-200 rounded-2xl focus:outline-none focus:border-blue-500"
+              className="w-full min-w-0 px-4 py-3 border border-slate-200 rounded-2xl bg-white text-slate-900 placeholder:text-slate-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/25"
             />
           </div>
 

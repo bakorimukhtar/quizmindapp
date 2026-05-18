@@ -138,11 +138,11 @@ export default function ProfilePage() {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-8 space-y-5">
               <div>
                 <label className="text-xs font-semibold text-slate-500">Username</label>
-                <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="w-full mt-1 px-4 py-3 border border-slate-200 rounded-2xl" placeholder="username" />
+                <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="w-full mt-1 px-4 py-3 border border-slate-200 rounded-2xl bg-white text-slate-900 placeholder:text-slate-500" placeholder="username" />
               </div>
               <div>
                 <label className="text-xs font-semibold text-slate-500">Bio</label>
-                <textarea value={bio} onChange={(e) => setBio(e.target.value)} className="w-full mt-1 px-4 py-3 border border-slate-200 rounded-2xl h-24" placeholder="Write something about yourself..." />
+                <textarea value={bio} onChange={(e) => setBio(e.target.value)} className="w-full mt-1 px-4 py-3 border border-slate-200 rounded-2xl h-24 bg-white text-slate-900 placeholder:text-slate-500" placeholder="Write something about yourself..." />
               </div>
               <button onClick={saveProfile} className="w-full py-3.5 bg-blue-600 text-white rounded-2xl font-semibold">
                 Save Changes

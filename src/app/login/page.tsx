@@ -7,6 +7,9 @@ import LoadingModal from "@/components/LoadingModal";
 import { setAuthLoading } from "@/lib/auth-loading";
 import { Eye, EyeOff, User, Mail, Lock } from "lucide-react";
 
+const inputClass =
+  "w-full py-3 border border-slate-200 rounded-2xl bg-white text-slate-900 placeholder:text-slate-500 caret-blue-600 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/25 transition-colors";
+
 export default function LoginPage() {
   const router = useRouter();
   const supabase = useSupabase();
@@ -147,7 +150,7 @@ export default function LoginPage() {
                             required
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
-                            className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-2xl focus:outline-none focus:border-blue-500 transition-colors"
+                            className={`${inputClass} pl-10 pr-4`}
                             placeholder="Mukhtar"
                           />
                         </div>
@@ -163,7 +166,7 @@ export default function LoginPage() {
                             required
                             value={lastName}
                             onChange={(e) => setLastName(e.target.value)}
-                            className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-2xl focus:outline-none focus:border-blue-500 transition-colors"
+                            className={`${inputClass} pl-10 pr-4`}
                             placeholder="Abdullahi"
                           />
                         </div>
@@ -185,8 +188,9 @@ export default function LoginPage() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-2xl focus:outline-none focus:border-blue-500 transition-colors"
+                    className={`${inputClass} pl-10 pr-4`}
                     placeholder="mukhtar@school.edu.ng"
+                    autoComplete="email"
                   />
                 </div>
               </div>
@@ -203,8 +207,9 @@ export default function LoginPage() {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-10 pr-12 py-3 border border-slate-200 rounded-2xl focus:outline-none focus:border-blue-500 transition-colors"
-                    placeholder="••••••••"
+                    className={`${inputClass} pl-10 pr-12`}
+                    placeholder="Enter password"
+                    autoComplete={isSignUp ? "new-password" : "current-password"}
                   />
                   <button
                     type="button"
@@ -234,8 +239,9 @@ export default function LoginPage() {
                         required
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
-                        className="w-full pl-10 pr-12 py-3 border border-slate-200 rounded-2xl focus:outline-none focus:border-blue-500 transition-colors"
-                        placeholder="••••••••"
+                        className={`${inputClass} pl-10 pr-12`}
+                        placeholder="Confirm password"
+                        autoComplete="new-password"
                       />
                       <button
                         type="button"
